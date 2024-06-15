@@ -53,26 +53,29 @@ async def _start(event):
     xnx = await event.reply("`Please Wait...`")
     msg_id = event.pattern_match.group(1)
     dB.add_broadcast_user(event.sender_id)
-    if Var.FORCESUB_CHANNEL1 and not await is_requested_one(client, message):
-        if Var.LINK1 is None:
-            result = await bot(ExportChatInviteRequest(
-                peer=FORCESUB_CHANNEL1,
-                request_needed=True 
-                ))
-            Var.LINK1 = result1.link
-        btn=[[Button.url("🚀 JOIN CHANNEL", url=Var.LINK1)]]
-        try:
-            if FORCESUB_CHANNEL2 and not await is_requested_two(client, message):
-                if Var.LINK2 is None:
-                    result2 = await bot(ExportChatInviteRequest(
-                    peer=FORCESUB_CHANNEL2,
+    btn = []
+    try:
+        if FORCESUB_CHANNEL1 and not await is_requested_one(client, event):
+            if Var.LINK1 is None:
+                result1 = await client(ExportChatInviteRequest(
+                    peer=FORCESUB_CHANNEL1,
                     request_needed=True 
+                ))
+                Var.LINK1 = result1.link
+            btn.append([Button.url("🚀 JOIN CHANNEL", url=Var.LINK1)])
+            if FORCESUB_CHANNEL2 and not await is_requested_two(client, event):
+                if Var.LINK2 is None:
+                    result2 = await client(ExportChatInviteRequest(
+                        peer=FORCESUB_CHANNEL2,
+                        request_needed=True 
                     ))
-            Var.LINK2 = result2.link
-                btn=[[Button.url("🚀 JOIN CHANNEL", url=Var.LINK2)]]
-        except Exception as e:
-            print(e)
-    
+                    Var.LINK2 = result2.link
+                btn.append([Button.url("🚀 JOIN CHANNEL", url=Var.LINK2)]) 
+            btn.append([Button.url("♻️ REFRESH",   url=f"https://t.me/{((await bot.get_me()).username)}?start={msg_id}")])                                    
+            await event.reply("**Please Join The Following Channel To Use This Bot 🫡**", buttons=btn)
+    except Exception as e:
+        print(e)
+ 
     if msg_id:
         if msg_id.isdigit():
             msg = await bot.get_messages(Var.BACKUP_CHANNEL, ids=int(msg_id))
