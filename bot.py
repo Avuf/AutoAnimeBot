@@ -24,6 +24,7 @@ from telethon import Button, events
 from core.bot import Bot
 from core.executors import Executors
 from database import DataBase
+from database.db import mdb
 from functions.info import AnimeInfo
 from functions.schedule import ScheduleTasks, Var
 from functions.tools import Tools, asyncio
@@ -43,6 +44,22 @@ torrent = Torrent()
 schedule = ScheduleTasks(bot)
 admin = AdminUtils(dB, bot)
 
+async def is_requested_one(bot, event):
+    user = await mdb.get_req_one(int(message.from_user.id))
+    if user:
+        return True
+    if message.from_user.id in Var.OWNER:
+        return True
+    return False
+    
+async def is_requested_two(bot, event):
+    user = await mdb.get_req_two(int(message.from_user.id))
+    if user:
+        return True
+    if message.from_user.id in Var.OWNER:
+        return True
+    return False
+    
 
 @bot.on(
     events.NewMessage(
@@ -55,7 +72,7 @@ async def _start(event):
     dB.add_broadcast_user(event.sender_id)
     btn = []
     try:
-        if FORCESUB_CHANNEL1 and not await is_requested_one(client, event):
+        if FORCESUB_CHANNEL1 and not await is_requested_one(bot, event):
             if Var.LINK1 is None:
                 result1 = await client(ExportChatInviteRequest(
                     peer=FORCESUB_CHANNEL1,
@@ -63,7 +80,7 @@ async def _start(event):
                 ))
                 Var.LINK1 = result1.link
             btn.append([Button.url("🚀 JOIN CHANNEL", url=Var.LINK1)])
-            if FORCESUB_CHANNEL2 and not await is_requested_two(client, event):
+            if FORCESUB_CHANNEL2 and not await is_requested_two(bot, event):
                 if Var.LINK2 is None:
                     result2 = await client(ExportChatInviteRequest(
                         peer=FORCESUB_CHANNEL2,
