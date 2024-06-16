@@ -34,13 +34,16 @@ class Var:
         "FIREBASE_SERVICE_ACCOUNT_FILE", default=None
     )
 
+    MDB_URI = config("MDB_URI", default=None)
+    MDB_NAME = config("MDB_NAME", default=None)
+    
+    
     # Channels Ids
 
     BACKUP_CHANNEL = config("BACKUP_CHANNEL", default=0, cast=int)
     MAIN_CHANNEL = config("MAIN_CHANNEL", cast=int)
     LOG_CHANNEL = config("LOG_CHANNEL", cast=int)
     CLOUD_CHANNEL = config("CLOUD_CHANNEL", cast=int)
-    FORCESUB_CHANNEL = config("FORCESUB_CHANNEL", default=0, cast=int)
     OWNER = config("OWNER", default=0, cast=int)
     FORCESUB_CHANNEL1 =config("FORCESUB_CHANNEL1", default=0, cast=int)
     FORCESUB_CHANNEL2 =config("FORCESUB_CHANNEL2", default=0, cast=int)
