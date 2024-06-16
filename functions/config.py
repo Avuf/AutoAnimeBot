@@ -42,6 +42,11 @@ class Var:
     CLOUD_CHANNEL = config("CLOUD_CHANNEL", cast=int)
     FORCESUB_CHANNEL = config("FORCESUB_CHANNEL", default=0, cast=int)
     OWNER = config("OWNER", default=0, cast=int)
+    FORCESUB_CHANNEL1 =config("FORCESUB_CHANNEL1", default=0, cast=int)
+    FORCESUB_CHANNEL2 =config("FORCESUB_CHANNEL2", default=0, cast=int)
+
+    LINK1 = None
+    LINK2 = None
 
     # Other Configs
 
