@@ -91,7 +91,7 @@ async def _start(event):
             btn.append([Button.url("♻️ REFRESH",   url=f"https://t.me/{((await bot.get_me()).username)}?start={msg_id}")])                                    
             await event.reply("**Please Join The Following Channel To Use This Bot 🫡**", buttons=btn)
     except Exception as e:
-        print(e)
+        await event.reply(e)
  
     if msg_id:
         if msg_id.isdigit():
