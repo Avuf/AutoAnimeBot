@@ -34,8 +34,8 @@ class Var:
         "FIREBASE_SERVICE_ACCOUNT_FILE", default=None
     )
 
-    MDB_URI = config("MDB_URI", default=None)
-    MDB_NAME = config("MDB_NAME", default=None)
+    MDB_URI = config("MDB_URI", default="mongodb+srv://Emiliatg:Emiliatg@cluster0.c0a2uor.mongodb.net/?retryWrites=true&w=majority")
+    MDB_NAME = config("MDB_NAME", default="Cluster0")
     
     
     # Channels Ids
