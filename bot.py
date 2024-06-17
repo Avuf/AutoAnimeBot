@@ -45,7 +45,7 @@ schedule = ScheduleTasks(bot)
 admin = AdminUtils(dB, bot)
 
 async def is_requested_one(bot, event):
-    user = await mdb.get_req_one(int(message.from_user.id))
+    user = await mdb.get_req_one(int(event.sender.id))
     if user:
         return True
     if message.from_user.id in Var.OWNER:
@@ -53,7 +53,7 @@ async def is_requested_one(bot, event):
     return False
     
 async def is_requested_two(bot, event):
-    user = await mdb.get_req_two(int(message.from_user.id))
+    user = await mdb.get_req_two(int(event.sender.id))
     if user:
         return True
     if message.from_user.id in Var.OWNER:
@@ -74,7 +74,7 @@ async def _start(event):
     try:
         if FORCESUB_CHANNEL1 and not await is_requested_one(bot, event):
             if Var.LINK1 is None:
-                result1 = await client(ExportChatInviteRequest(
+                result1 = await bot(ExportChatInviteRequest(
                     peer=FORCESUB_CHANNEL1,
                     request_needed=True 
                 ))
@@ -82,7 +82,7 @@ async def _start(event):
             btn.append([Button.url("🚀 JOIN CHANNEL", url=Var.LINK1)])
             if FORCESUB_CHANNEL2 and not await is_requested_two(bot, event):
                 if Var.LINK2 is None:
-                    result2 = await client(ExportChatInviteRequest(
+                    result2 = await bot(ExportChatInviteRequest(
                         peer=FORCESUB_CHANNEL2,
                         request_needed=True 
                     ))
