@@ -22,10 +22,10 @@ from decouple import config
 class Var:
     # Telegram Credentials
 
-    API_ID = config("API_ID", default=6, cast=int)
-    API_HASH = config("API_HASH", default="eb06d4abfb49dc3eeb1aeb98ae0f581e")
-    BOT_TOKEN = config("BOT_TOKEN", default=None)
-    SESSION = config("SESSION", default=None)
+    API_ID = config("API_ID", default=23363032, cast=int)
+    API_HASH = config("API_HASH", default="74134aaa77f0d0725385377e104bf933")
+    BOT_TOKEN = config("BOT_TOKEN", default="6527490872:AAGneA1tbChM4JtOAhgzTg4uQ59HmBgTqKk")
+    SESSION = config("SESSION", default="New-Bot")
 
     # Database Credentials
 
@@ -42,7 +42,7 @@ class Var:
 
     BACKUP_CHANNEL = config("BACKUP_CHANNEL", default=0, cast=int)
     MAIN_CHANNEL = config("MAIN_CHANNEL", cast=int)
-    LOG_CHANNEL = config("LOG_CHANNEL", cast=int)
+    LOG_CHANNEL = int(-1002219868353)
     CLOUD_CHANNEL = config("CLOUD_CHANNEL", cast=int)
     OWNER = config("OWNER", default=0, cast=int)
     FORCESUB_CHANNEL1 =config("FORCESUB_CHANNEL1", default=0, cast=int)
