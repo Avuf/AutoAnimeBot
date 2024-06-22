@@ -38,7 +38,7 @@ from telethon.tl.functions.channels import (
     GetParticipantRequest,
 )
 from telethon.tl.functions.messages import ExportChatInviteRequest
-
+from functions import web_server
 from functions.config import Var
 from libs.logger import LOGS, TelethonLogger
 
@@ -70,6 +70,10 @@ class Bot(TelegramClient):
             in_memory=True,
         )
         self.user_client = None
+        app = web.AppRunner(await web_server())
+        await app.setup()
+        await web.TCPSite(app, "0.0.0.0", 8080).start()
+        logger.info("Web server connected...")
         if Var.SESSION:
             self.user_client = TelegramClient(
                 StringSession(Var.SESSION), kwargs["api_id"], kwargs["api_hash"]
