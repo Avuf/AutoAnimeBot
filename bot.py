@@ -98,7 +98,7 @@ async def _start(event):
         if Var.FORCESUB_CHANNEL1 and not await is_requested_one(bot, event):
             if Var.LINK1 is None:
                 result1 = await bot(ExportChatInviteRequest(
-                    peer=Var.FORCESUB_CHANNEL1,
+                    peer=Var.REQ_CHANNEL1,
                     request_needed=True 
                 ))
                 Var.LINK1 = result1.link
@@ -106,7 +106,7 @@ async def _start(event):
             if Var.FORCESUB_CHANNEL2 and not await is_requested_two(bot, event):
                 if Var.LINK2 is None:
                     result2 = await bot(ExportChatInviteRequest(
-                        peer=Var.FORCESUB_CHANNEL2,
+                        peer=Var.REQ_CHANNEL1,
                         request_needed=True 
                     ))
                     Var.LINK2 = result2.link
