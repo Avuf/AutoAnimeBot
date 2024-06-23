@@ -112,7 +112,7 @@ async def _start(event):
                     Var.LINK2 = result2.link
                 btn.append([Button.url("🚀 JOIN CHANNEL", url=Var.LINK2)]) 
             btn.append([Button.url("♻️ REFRESH",   url=f"https://t.me/{((await bot.get_me()).username)}?start={msg_id}")])                                    
-            await event.reply("**Please Join The Following Channel To Use This Bot 🫡**", buttons=btn)
+            await event.reply("**Please Request to Join The Following Channel To Use This Bot 🫡**", buttons=btn)
     except Exception as e:
         await event.reply(e)
  
