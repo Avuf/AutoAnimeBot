@@ -29,9 +29,9 @@ class Var:
     WEB = False
     # Database Credentials
 
-    FIREBASE_URL = config("FIREBASE_URL", default=None)
+    FIREBASE_URL = config("https://auto-anime-as-default-rtdb.firebaseio.com", default=None)
     FIREBASE_SERVICE_ACCOUNT_FILE = config(
-        "FIREBASE_SERVICE_ACCOUNT_FILE", default=None
+        "https://gist.githubusercontent.com/shinigamiezz/0444921a49fb188ee2205a983317ebff/raw/0bb8adcc4035dd54149ca1fcdcb9eaeb17eb9a55/service.json", default=None
     )
 
     MDB_URI = config("MDB_URI", default="mongodb+srv://Emiliatg:Emiliatg@cluster0.c0a2uor.mongodb.net/?retryWrites=true&w=majority")
