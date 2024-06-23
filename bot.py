@@ -52,7 +52,7 @@ async def is_requested_one(bot, event):
     user = await mdb.get_req_one(int(event.sender.id))
     if user:
         return True
-    if message.from_user.id in Var.OWNER:
+    if event.sender.id in Var.OWNER:
         return True
     return False
     
@@ -60,7 +60,7 @@ async def is_requested_two(bot, event):
     user = await mdb.get_req_two(int(event.sender.id))
     if user:
         return True
-    if message.from_user.id in Var.OWNER:
+    if event.sender.id in Var.OWNER:
         return True
     return False
     
