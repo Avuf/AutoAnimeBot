@@ -41,9 +41,10 @@ class Var:
     MAIN_CHANNEL = config("-1002177615094", default=0, cast=int)
     LOG_CHANNEL = int(-1002247750933)
     CLOUD_CHANNEL = config("-1002204000606", default=0, cast=int)
-    OWNER = config("6052897917", default=0, cast=int)
-    FORCESUB_CHANNEL1 =config("-1002177615094", default=0, cast=int)
-    FORCESUB_CHANNEL2 =config("-1002168406189", default=0, cast=int)
+    OWNER = int(6052897917)
+                   
+    FORCESUB_CHANNEL1 = int(-1002177615094)
+    FORCESUB_CHANNEL2 = int(-1002168406189)
 
     LINK1 = None
     LINK2 = None
