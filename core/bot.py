@@ -71,10 +71,11 @@ class Bot(TelegramClient):
             in_memory=True,
         )
         self.user_client = None
-        app = web.AppRunner(web_server())
-        web.TCPSite(app, "0.0.0.0", 8080).start()
-        app.setup()
-        logger.info("Web server connected...")
+        if Var.WEB:
+            app = web.AppRunner(web_server())
+            app.setup()
+            web.TCPSite(app, "0.0.0.0", 8080).start()
+            logger.info("Web server connected...")
         if Var.SESSION:
             self.user_client = TelegramClient(
                 StringSession(Var.SESSION), kwargs["api_id"], kwargs["api_hash"]
