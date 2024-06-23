@@ -19,7 +19,7 @@
 from decouple import config
 import re
 
-id_pattern = re.compile(r'^?\d+$')  
+id_pattern = re.compile(r'^.\d+$')
 
 class Var:
     # Telegram Credentials
