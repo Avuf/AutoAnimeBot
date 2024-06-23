@@ -37,10 +37,10 @@ class Var:
     
     # Channels Ids
 
-    BACKUP_CHANNEL = config("-1002168406189", default=0, cast=int)
-    MAIN_CHANNEL = config("-1002177615094", default=0, cast=int)
+    BACKUP_CHANNEL = int(-1002168406189)
+    MAIN_CHANNEL = int(-1002177615094)
     LOG_CHANNEL = int(-1002247750933)
-    CLOUD_CHANNEL = config("-1002204000606", default=0, cast=int)
+    CLOUD_CHANNEL = int(-1002204000606)
     OWNER = int(6052897917)
                    
     FORCESUB_CHANNEL1 = int(-1002177615094)
