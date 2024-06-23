@@ -17,7 +17,9 @@
 # credit to t.me/kAiF_00z (github.com/kaif-00z)
 
 from decouple import config
+import re
 
+id_pattern = re.compile(r'^.\d+$')
 
 class Var:
     # Telegram Credentials
@@ -43,9 +45,8 @@ class Var:
     CLOUD_CHANNEL = int(-1002204000606)
     OWNER = int(6052897917)
                    
-    FORCESUB_CHANNEL1 = int(-1002177615094)
-    FORCESUB_CHANNEL2 = int(-1002168406189)
-
+    REQ_CHANNEL1 = '-1001886813820'
+    REQ_CHANNEL2 = '-1001921469908'
     LINK1 = None
     LINK2 = None
 
@@ -59,3 +60,6 @@ class Var:
     SEND_SCHEDULE = config("SEND_SCHEDULE", default=False, cast=bool)
     RESTART_EVERDAY = config("RESTART_EVERDAY", default=True, cast=bool)
     FORCESUB_CHANNEL_LINK = config("FORCESUB_CHANNEL_LINK", default="", cast=str)
+    FORCESUB_CHANNEL1 = int(REQ_CHANNEL1) if REQ_CHANNEL1 and id_pattern.search(REQ_CHANNEL1) else None
+    FORCESUB_CHANNEL2 = int(REQ_CHANNEL2) if REQ_CHANNEL2 and id_pattern.search(REQ_CHANNEL2) else None
+    
