@@ -19,7 +19,7 @@
 from decouple import config
 import re
 
-id_pattern = re.compile(r'^-?\d+$')  
+id_pattern = re.compile(r'^?\d+$')  
 
 class Var:
     # Telegram Credentials
@@ -60,6 +60,6 @@ class Var:
     SEND_SCHEDULE = config("SEND_SCHEDULE", default=False, cast=bool)
     RESTART_EVERDAY = config("RESTART_EVERDAY", default=True, cast=bool)
     FORCESUB_CHANNEL_LINK = config("FORCESUB_CHANNEL_LINK", default="", cast=str)
-    FORCESUB_CHANNEL1 = int(REQ_CHANNEL1) if REQ_CHANNEL1 and id_pattern.match(REQ_CHANNEL1) else None
-    FORCESUB_CHANNEL2 = int(REQ_CHANNEL2) if REQ_CHANNEL2 and id_pattern.match(REQ_CHANNEL2) else None
+    FORCESUB_CHANNEL1 = int(REQ_CHANNEL1) if REQ_CHANNEL1 and id_pattern.search(REQ_CHANNEL1) else None
+    FORCESUB_CHANNEL2 = int(REQ_CHANNEL2) if REQ_CHANNEL2 and id_pattern.search(REQ_CHANNEL2) else None
     
