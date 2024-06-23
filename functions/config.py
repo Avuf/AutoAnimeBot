@@ -25,7 +25,7 @@ class Var:
     API_ID = int(23363032)
     API_HASH = "74134aaa77f0d0725385377e104bf933"
     BOT_TOKEN = "6527490872:AAGneA1tbChM4JtOAhgzTg4uQ59HmBgTqKk"
-    SESSION = "New-Bot"
+    SESSION = ""
     WEB = False
     # Database Credentials
 
