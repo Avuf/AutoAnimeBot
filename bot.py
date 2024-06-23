@@ -72,7 +72,7 @@ async def _start(event):
     dB.add_broadcast_user(event.sender_id)
     btn = []
     try:
-        if FORCESUB_CHANNEL1 and not await is_requested_one(bot, event):
+        if Var.FORCESUB_CHANNEL1 and not await is_requested_one(bot, event):
             if Var.LINK1 is None:
                 result1 = await bot(ExportChatInviteRequest(
                     peer=FORCESUB_CHANNEL1,
@@ -80,7 +80,7 @@ async def _start(event):
                 ))
                 Var.LINK1 = result1.link
             btn.append([Button.url("🚀 JOIN CHANNEL", url=Var.LINK1)])
-            if FORCESUB_CHANNEL2 and not await is_requested_two(bot, event):
+            if Var.FORCESUB_CHANNEL2 and not await is_requested_two(bot, event):
                 if Var.LINK2 is None:
                     result2 = await bot(ExportChatInviteRequest(
                         peer=FORCESUB_CHANNEL2,
