@@ -78,7 +78,7 @@ async def _update(event):
         if "Already up to date" in git_output.strip():
             return
         restart_message = await update.reply("<code>Bot Updated</code>")
-        os.execl(sys.executable, sys.executable, 'bash.sh')
+        os.execl(sys.executable, sys.executable, 'run.sh')
     except subprocess.CalledProcessError as e:
         await event.reply(f'Git pull failed:\n{html.escape(e.output)}')
     except Exception as e:
