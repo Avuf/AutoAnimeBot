@@ -70,7 +70,7 @@ class Bot(TelegramClient):
             in_memory=True,
         )
         self.user_client = None
-        app = web.AppRunner(await web_server())
+        app = web.AppRunner(web_server())
         await app.setup()
         await web.TCPSite(app, "0.0.0.0", 8080).start()
         logger.info("Web server connected...")
