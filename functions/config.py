@@ -45,8 +45,8 @@ class Var:
     CLOUD_CHANNEL = int(-1002204000606)
     OWNER = int(6052897917)
                    
-    REQ_CHANNEL1 = int(-1001886813820)
-    REQ_CHANNEL2 = int(-1001921469908)
+    REQ_CHANNEL1 = "-1001886813820"
+    REQ_CHANNEL2 = "-1001921469908"
     LINK1 = None
     LINK2 = None
 
