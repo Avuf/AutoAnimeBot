@@ -18,6 +18,10 @@
 
 import re
 from traceback import format_exc
+import os
+import sys
+import subprocess
+import html
 
 from telethon import Button, events
 
@@ -60,6 +64,25 @@ async def is_requested_two(bot, event):
         return True
     return False
     
+
+@bot.on(
+    events.NewMessage(
+        incoming=True, pattern="^/update ?(.*)", func=lambda e: e.is_private
+    )
+)
+async def _update(event):
+    try:
+        git_output = subprocess.check_output(['git', 'pull'], stderr=subprocess.STDOUT, universal_newlines=True)
+        git_output_escaped = html.escape(git_output)
+        update = await event.reply(f'<pre>{git_output_escaped}</pre>')
+        if "Already up to date" in git_output.strip():
+            return
+        restart_message = await update.reply("<code>Bot Updated</code>")
+        os.execl(sys.executable, sys.executable, 'bash.sh')
+    except subprocess.CalledProcessError as e:
+        await event.reply(f'Git pull failed:\n{html.escape(e.output)}')
+    except Exception as e:
+        await event.reply(f'Error occurred during update: {html.escape(str(e))}')
 
 @bot.on(
     events.NewMessage(
