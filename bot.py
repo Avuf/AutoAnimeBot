@@ -56,7 +56,7 @@ async def is_user_joined(bot, user_id: int, channel: int):
         participant = member.participant
     except Exception as e: 
         return False
-    if isinstance(participant, (ChannelParticipantCreator, ChannelParticipantAdmin, ChannelParticipant)):
+    if not participant:
         return True
     else:
         return False
