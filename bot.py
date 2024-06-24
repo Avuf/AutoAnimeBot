@@ -114,8 +114,8 @@ async def _start(event):
             btn.append([Button.url("♻️ REFRESH",   url=f"https://t.me/{((await bot.get_me()).username)}?start={msg_id}")])                                    
             await event.reply("**Please Request to Join The Following Channel To Use This Bot 🫡**", buttons=btn)
     except Exception as e:
-        await event.reply(f"err in req {e}")
- 
+        await event.reply(f"err in req {e}\n\n{format_exc()}")
+    
     if msg_id:
         if msg_id.isdigit():
             msg = await bot.get_messages(Var.BACKUP_CHANNEL, ids=int(msg_id))
