@@ -106,7 +106,7 @@ async def _start(event):
         non_member_channels = [channel for channel in Var.AUTH_CHANNELS if not await is_user_joined(bot, event.sender_id, int(channel))]
         if non_member_channels:
             buttons = [
-                [InlineKeyboardButton("Join Channel", url= await get_invite_link(bot, channel))] for channel in non_member_channels
+                [Button.url("Join Channel", url= await get_invite_link(bot, channel))] for channel in non_member_channels
             ]
             if msg_id:
                 buttons.append([Button.url("♻️ REFRESH",   url=f"https://t.me/{((await bot.get_me()).username)}?start={msg_id}")])                                    
