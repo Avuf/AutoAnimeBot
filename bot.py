@@ -110,7 +110,7 @@ async def _start(event):
             ]
             if msg_id:
                 buttons.append([Button.url("♻️ REFRESH",   url=f"https://t.me/{((await bot.get_me()).username)}?start={msg_id}")])                                    
-            await xnx.edit("**Please Join The Following Channel To Use This Bot 🫡**", buttons=buttons)
+            return await xnx.edit("**Please Join The Following Channel To Use This Bot 🫡**", buttons=buttons)
     except Exception as e:
         await event.reply(f"err in {e}\n\n{format_exc()}")
     
