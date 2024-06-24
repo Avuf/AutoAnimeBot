@@ -37,6 +37,7 @@ from libs.ariawarp import Torrent
 from libs.logger import LOGS, Reporter
 from libs.subsplease import SubsPlease
 from telethon.tl.functions.messages import ExportChatInviteRequest
+from telethon.tl.types import UpdateChatParticipantAdd
 
 
 tools = Tools()
@@ -147,6 +148,18 @@ async def _start(event):
         )
     await xnx.delete()
 
+@bot.on(events.ChatAction)
+async def join_reqs(event):
+    if isinstance(event.action_message.action, UpdateChatParticipantAdd):
+        user_id = event.action_message.action.user_id
+        chat_id = event.chat_id  
+        try:
+            if chat_id == REQ_CHANNEL1:
+                await db.add_req_one(user_id)
+            elif chat_id == REQ_CHANNEL2:
+                await db.add_req_two(user_id)
+        except Exception as e:
+            print(f"Error adding join request: {e}")
 
 @bot.on(events.callbackquery.CallbackQuery(data=re.compile("tas_(.*)")))
 async def _(e):
