@@ -28,7 +28,6 @@ from telethon import Button, events
 from core.bot import Bot
 from core.executors import Executors
 from database import DataBase
-from database.db import mdb
 from functions.info import AnimeInfo
 from functions.schedule import ScheduleTasks, Var
 from functions.tools import Tools, asyncio
