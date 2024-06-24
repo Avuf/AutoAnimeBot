@@ -155,9 +155,9 @@ async def join_reqs(event):
         chat_id = event.chat_id  
         try:
             if chat_id == REQ_CHANNEL1:
-                await db.add_req_one(user_id)
+                await mdb.add_req_one(user_id)
             elif chat_id == REQ_CHANNEL2:
-                await db.add_req_two(user_id)
+                await mdb.add_req_two(user_id)
         except Exception as e:
             print(f"Error adding join request: {e}")
 
