@@ -37,8 +37,7 @@ from libs.logger import LOGS, Reporter
 from libs.subsplease import SubsPlease
 from telethon.tl.functions.messages import ExportChatInviteRequest
 from telethon.tl.types import UpdateChatParticipantAdd, ChannelParticipantCreator, ChannelParticipantAdmin, ChannelParticipant
-from telethon.tl.functions.channels import GetParticipantsRequest, GetFullChannel, ExportInvite
-
+from telethon.tl.functions.channels import GetParticipantsRequest, GetFullChannelRequest, ExportInvite
 
 tools = Tools()
 tools.init_dir()
@@ -53,7 +52,7 @@ async def is_user_joined(bot, user_id: int, channel: int):
     if user_id in Var.OWNER:
         return True
     try:
-        member = await bot(GetParticipant(channel=channel, user_id=user_id))
+        member = await bot(GetParticipantsRequest(channel=channel, user_id=user_id))
         participant = member.participant
     except Exception as e: 
         return False
@@ -64,7 +63,7 @@ async def is_user_joined(bot, user_id: int, channel: int):
         
 async def get_invite_link(client, channel):
     try:
-        chat_info = await client(GetFullChannel(channel=int(channel)))
+        chat_info = await client(GetFullChannelRequest(channel=int(channel)))
         invite_link = chat_info.full_chat.exported_invite
         if invite_link:
             return invite_link.link
