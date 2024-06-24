@@ -37,7 +37,7 @@ from libs.logger import LOGS, Reporter
 from libs.subsplease import SubsPlease
 from telethon.tl.functions.messages import ExportChatInviteRequest
 from telethon.tl.types import UpdateChatParticipantAdd, ChannelParticipantCreator, ChannelParticipantAdmin, ChannelParticipant
-from telethon.tl.functions.channels import GetParticipant, GetFullChannel, ExportInvite
+from telethon.tl.functions.channels import GetParticipantsRequest, GetFullChannel, ExportInvite
 
 
 tools = Tools()
