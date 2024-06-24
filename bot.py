@@ -105,7 +105,6 @@ async def _start(event):
     try: 
         non_member_channels = [channel for channel in Var.AUTH_CHANNELS if not await is_user_joined(bot, event.sender_id, int(channel))]
         if non_member_channels:
-            m = await message.reply(f"<code>please wait...</code>")
             buttons = [
                 [InlineKeyboardButton("Join Channel", url= await get_invite_link(bot, channel))] for channel in non_member_channels
             ]
