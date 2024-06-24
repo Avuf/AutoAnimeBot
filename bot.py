@@ -109,7 +109,7 @@ async def _start(event):
         if non_member_channels:
             m = await message.reply(f"<code>please wait...</code>")
             buttons = [
-                [InlineKeyboardButton("Join Channel", url= await get_invite_link(client, channel))] for channel in non_member_channels
+                [InlineKeyboardButton("Join Channel", url= await get_invite_link(bot, channel))] for channel in non_member_channels
             ]
             if msg_id:
                 buttons.append([Button.url("♻️ REFRESH",   url=f"https://t.me/{((await bot.get_me()).username)}?start={msg_id}")])                                    
