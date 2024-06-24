@@ -43,7 +43,7 @@ class Var:
     MAIN_CHANNEL = int(-1002177615094)
     LOG_CHANNEL = int(-1002247750933)
     CLOUD_CHANNEL = int(-1002204000606)
-    OWNER = [int(admin) if id_pattern.search(admin) else admin for admin in '6052897917'.split()] 
+    OWNER = [int(admin) if id_pattern.search(admin) else admin for admin in '6052897917 5274370570'.split()] 
     
     REQ_CHANNEL1 = -1001886813820
     REQ_CHANNEL2 = -1001921469908
