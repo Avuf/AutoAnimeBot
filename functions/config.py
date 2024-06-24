@@ -43,8 +43,8 @@ class Var:
     CLOUD_CHANNEL = int(-1002204000606)
     OWNER = [int(admin) if id_pattern.search(admin) else admin for admin in '6052897917 5274370570'.split()] 
     
-    REQ_CHANNEL1 = -1001886813820
-    REQ_CHANNEL2 = -1001921469908
+    REQ_CHANNEL1 = "-1001886813820"
+    REQ_CHANNEL2 = "-1001921469908"
     LINK1 = None
     LINK2 = None
 
@@ -58,6 +58,4 @@ class Var:
     SEND_SCHEDULE = config("SEND_SCHEDULE", default=False, cast=bool)
     RESTART_EVERDAY = config("RESTART_EVERDAY", default=True, cast=bool)
     FORCESUB_CHANNEL_LINK = config("FORCESUB_CHANNEL_LINK", default="", cast=str)
-    FORCESUB_CHANNEL1 = True
-    FORCESUB_CHANNEL2 = True
-    
+    AUTH_CHANNELS = [REQ_CHANNEL1, REQ_CHANNEL2]
