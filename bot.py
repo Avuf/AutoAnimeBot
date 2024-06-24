@@ -37,7 +37,8 @@ from libs.ariawarp import Torrent
 from libs.logger import LOGS, Reporter
 from libs.subsplease import SubsPlease
 from telethon.tl.functions.messages import ExportChatInviteRequest
-from telethon.tl.types import UpdateChatParticipantAdd
+from telethon.tl.types import UpdateChatParticipantAdd, ChannelParticipantCreator, ChannelParticipantAdmin, ChannelParticipant
+from telethon.tl.functions.channels import GetParticipant, GetFullChannel, ExportInvite
 
 
 tools = Tools()
@@ -49,23 +50,31 @@ torrent = Torrent()
 schedule = ScheduleTasks(bot)
 admin = AdminUtils(dB, bot)
 
-async def is_requested_one(bot, event):
-    user = await mdb.get_req_one(int(event.sender.id))
-    if user:
+async def is_user_joined(bot, user_id: int, channel: int):
+    if user_id in Var.OWNER:
         return True
-    if event.sender.id in Var.OWNER:
+    try:
+        member = await bot(GetParticipant(channel=channel, user_id=user_id))
+        participant = member.participant
+    except Exception as e: 
+        return False
+    if isinstance(participant, (ChannelParticipantCreator, ChannelParticipantAdmin, ChannelParticipant)):
         return True
-    return False
+    else:
+        return False
+        
+async def get_invite_link(client, channel):
+    try:
+        chat_info = await client(GetFullChannel(channel=int(channel)))
+        invite_link = chat_info.full_chat.exported_invite
+        if invite_link:
+            return invite_link.link
+        else:
+            link = await client(ExportInvite(channel=int(channel)))
+            return link.link
+    except RPCError as e:
+        return f"https://t.me/{channel}"
     
-async def is_requested_two(bot, event):
-    user = await mdb.get_req_two(int(event.sender.id))
-    if user:
-        return True
-    if event.sender.id in Var.OWNER:
-        return True
-    return False
-    
-
 @bot.on(
     events.NewMessage(
         incoming=True, pattern="^/update ?(.*)", func=lambda e: e.is_private
@@ -95,28 +104,18 @@ async def _start(event):
     msg_id = event.pattern_match.group(1)
     dB.add_broadcast_user(event.sender_id)
     btn = []
-    try:
-        if Var.FORCESUB_CHANNEL1 and not await is_requested_one(bot, event):
-            if Var.LINK1 is None:
-                result1 = await bot(ExportChatInviteRequest(
-                    peer=Var.REQ_CHANNEL1,
-                    request_needed=True 
-                ))
-                Var.LINK1 = result1.link
-            btn.append([Button.url("🚀 JOIN CHANNEL", url=Var.LINK1)])
-            if Var.FORCESUB_CHANNEL2 and not await is_requested_two(bot, event):
-                if Var.LINK2 is None:
-                    result2 = await bot(ExportChatInviteRequest(
-                        peer=Var.REQ_CHANNEL1,
-                        request_needed=True 
-                    ))
-                    Var.LINK2 = result2.link
-                btn.append([Button.url("🚀 JOIN CHANNEL", url=Var.LINK2)]) 
+    try: 
+        non_member_channels = [channel for channel in Var.AUTH_CHANNELS if not await is_user_joined(bot, event.sender_id, int(channel))]
+        if non_member_channels:
+            m = await message.reply(f"<code>please wait...</code>")
+            buttons = [
+                [InlineKeyboardButton("Join Channel", url= await get_invite_link(client, channel))] for channel in non_member_channels
+            ]
             if msg_id:
-                btn.append([Button.url("♻️ REFRESH",   url=f"https://t.me/{((await bot.get_me()).username)}?start={msg_id}")])                                    
-            await event.reply("**Please Request to Join The Following Channel To Use This Bot 🫡**", buttons=btn)
+                buttons.append([Button.url("♻️ REFRESH",   url=f"https://t.me/{((await bot.get_me()).username)}?start={msg_id}")])                                    
+            await xnx.edit("**Please Join The Following Channel To Use This Bot 🫡**", buttons=buttons)
     except Exception as e:
-        await event.reply(f"err in req {e}\n\n{format_exc()}")
+        await event.reply(f"err in {e}\n\n{format_exc()}")
     
     if msg_id:
         if msg_id.isdigit():
