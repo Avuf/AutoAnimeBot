@@ -128,7 +128,7 @@ async def _start(event):
                     msg = await bot.get_messages(Var.CLOUD_CHANNEL, ids=id)
                     await event.reply(file=[i for i in msg])
     else:
-        if event.sender_id == Var.OWNER:
+        if event.sender_id in Var.OWNER:
             return await xnx.edit(
                 "** <                ADMIN PANEL                 > **",
                 buttons=admin.admin_panel(),
