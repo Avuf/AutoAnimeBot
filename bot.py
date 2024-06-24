@@ -37,7 +37,7 @@ from libs.logger import LOGS, Reporter
 from libs.subsplease import SubsPlease
 from telethon.tl.functions.messages import ExportChatInviteRequest
 from telethon.tl.types import UpdateChatParticipantAdd, ChannelParticipantCreator, ChannelParticipantAdmin, ChannelParticipant
-from telethon.tl.functions.channels import GetParticipantsRequest, GetFullChannelRequest, ExportInvite
+from telethon.tl.functions.channels import GetParticipantsRequest, GetFullChannelRequest
 
 tools = Tools()
 tools.init_dir()
@@ -68,7 +68,7 @@ async def get_invite_link(client, channel):
         if invite_link:
             return invite_link.link
         else:
-            link = await client(ExportInvite(channel=int(channel)))
+            link = await client(ExportChatInviteRequest(peer=int(channel)))
             return link.link
     except RPCError as e:
         return f"https://t.me/{channel}"
