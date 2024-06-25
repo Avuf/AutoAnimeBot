@@ -53,14 +53,13 @@ async def is_user_joined(bot, user_id: int, channel: int):
     if user_id in Var.OWNER:
         return True
     try:
-        member = await bot(GetParticipantRequest(channel, user_id))
-    except Exception as e: 
+        member = await bot(GetParticipantRequest(channel, user_id)
+        if not member:
+            return False
+        else:
+            return True
+   except Exception as e: 
         print(e)
-        return False
-    if not member:
-        return False
-    else:
-        return False
         
 async def get_invite_link(client, channel):
     try:
