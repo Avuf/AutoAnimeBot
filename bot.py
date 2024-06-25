@@ -38,6 +38,7 @@ from libs.subsplease import SubsPlease
 from telethon.tl.functions.messages import ExportChatInviteRequest
 from telethon.tl.types import UpdateChatParticipantAdd, ChannelParticipantCreator, ChannelParticipantAdmin, ChannelParticipant
 from telethon.tl.functions.channels import GetParticipantsRequest, GetFullChannelRequest
+from telethon.errors import UserNotParticipantError 
 
 tools = Tools()
 tools.init_dir()
@@ -52,9 +53,12 @@ async def is_user_joined(bot, user_id: int, channel: int):
     if user_id in Var.OWNER:
         return True
     try:
-        member = await bot(GetParticipantsRequest(channel=channel, user_id=user_id))
+        member = await bot(GetParticipantsRequest(channel=channel, participant=user_id))
         participant = member.participant
+    except UserNotParticipantError:
+        return False
     except Exception as e: 
+        print(e)
         return False
     if not participant:
         return True
