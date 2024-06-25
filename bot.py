@@ -53,7 +53,7 @@ async def is_user_joined(bot, user_id: int, channel: int):
     if user_id in Var.OWNER:
         return True
     try:
-        member = await bot(GetParticipantsRequest(channel=channel, participant=user_id))
+        member = await bot(GetParticipantRequest(channel=channel, participant=user_id))
         participant = member.participant
     except UserNotParticipantError:
         return False
@@ -61,7 +61,7 @@ async def is_user_joined(bot, user_id: int, channel: int):
         print(e)
         return False
     if not participant:
-        return True
+        return False
     else:
         return False
         
