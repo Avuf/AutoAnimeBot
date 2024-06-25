@@ -58,8 +58,8 @@ async def is_user_joined(bot, user_id: int, channel: int):
             return False
         else:
             return True
-   except Exception as e: 
-       print(e)
+    except Exception as e: 
+        print(e)
         
 async def get_invite_link(client, channel):
     try:
