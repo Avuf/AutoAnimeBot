@@ -54,6 +54,7 @@ async def is_user_joined(bot, user_id: int, channel: int):
         return True
     try:
         member = await bot(GetParticipantRequest(channel, user_id))
+        print(member)
         participant = member.participant
     except UserNotParticipantError:
         return False
