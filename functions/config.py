@@ -16,10 +16,12 @@
 # if you are using this following code then don't forgot to give proper
 # credit to t.me/kAiF_00z (github.com/kaif-00z)
 
-from decouple import config
 import re
 
-id_pattern = re.compile(r'^.\d+$')
+from decouple import config
+
+id_pattern = re.compile(r"^.\d+$")
+
 
 class Var:
     # Telegram Credentials
@@ -34,15 +36,17 @@ class Var:
     FIREBASE_URL = "https://auto-anime-as-default-rtdb.firebaseio.com"
     FIREBASE_SERVICE_ACCOUNT_FILE = "https://gist.githubusercontent.com/shinigamiezz/0444921a49fb188ee2205a983317ebff/raw/0bb8adcc4035dd54149ca1fcdcb9eaeb17eb9a55/service.json"
 
-    
     # Channels Ids
 
     BACKUP_CHANNEL = int(-1002168406189)
     MAIN_CHANNEL = int(-1002177615094)
     LOG_CHANNEL = int(-1002247750933)
     CLOUD_CHANNEL = int(-1002204000606)
-    OWNER = [int(admin) if id_pattern.search(admin) else admin for admin in '6052897917 5274370570'.split()] 
-    
+    OWNER = [
+        int(admin) if id_pattern.search(admin) else admin
+        for admin in "6052897917 5274370570".split()
+    ]
+
     REQ_CHANNEL1 = "-1001886813820"
     REQ_CHANNEL2 = "-1001921469908"
     LINK1 = None

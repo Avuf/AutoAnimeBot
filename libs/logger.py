@@ -38,16 +38,14 @@ LOGS = logging.getLogger("AutoAnimeBot")
 TelethonLogger = logging.getLogger("Telethon")
 TelethonLogger.setLevel(logging.INFO)
 
-LOGS.info(
-    """
+LOGS.info("""
                         Auto Anime Bot
                 ©️ t.me/kAiF_00z (github.com/kaif-00z)
                         v0.0.7 (original)
                              (2023-24)
                        [All Rigth Reserved]
 
-    """
-)
+    """)
 
 
 class Reporter:

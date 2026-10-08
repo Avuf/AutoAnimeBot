@@ -16,14 +16,17 @@
 # if you are using this following code then don't forgot to give proper
 # credit to t.me/kAiF_00z (github.com/kaif-00z)
 
-import re
-from traceback import format_exc
-import os
-import sys
-import subprocess
 import html
+import os
+import re
+import subprocess
+import sys
+from traceback import format_exc
 
 from telethon import Button, events
+from telethon.tl.functions.channels import GetFullChannelRequest, GetParticipantRequest
+from telethon.tl.functions.messages import ExportChatInviteRequest
+from telethon.tl.types import UpdateChatParticipantAdd
 
 from core.bot import Bot
 from core.executors import Executors
@@ -35,10 +38,6 @@ from functions.utils import AdminUtils
 from libs.ariawarp import Torrent
 from libs.logger import LOGS, Reporter
 from libs.subsplease import SubsPlease
-from telethon.tl.functions.messages import ExportChatInviteRequest
-from telethon.tl.types import UpdateChatParticipantAdd, ChannelParticipantCreator, ChannelParticipantAdmin, ChannelParticipant
-from telethon.tl.functions.channels import GetParticipantRequest, GetFullChannelRequest
-from telethon.errors import UserNotParticipantError 
 
 tools = Tools()
 tools.init_dir()
@@ -49,6 +48,7 @@ torrent = Torrent()
 schedule = ScheduleTasks(bot)
 admin = AdminUtils(dB, bot)
 
+
 async def is_user_joined(bot, user_id: int, channel: int):
     if user_id in Var.OWNER:
         return True
@@ -58,9 +58,10 @@ async def is_user_joined(bot, user_id: int, channel: int):
             return False
         else:
             return True
-    except Exception as e: 
+    except Exception as e:
         print(e)
-        
+
+
 async def get_invite_link(client, channel):
     try:
         chat_info = await client(GetFullChannelRequest(channel=int(channel)))
@@ -70,9 +71,10 @@ async def get_invite_link(client, channel):
         else:
             link = await client(ExportChatInviteRequest(peer=int(channel)))
             return link.link
-    except RPCError as e:
+    except RPCError:
         return f"https://t.me/{channel}"
-    
+
+
 @bot.on(
     events.NewMessage(
         incoming=True, pattern="^/update ?(.*)", func=lambda e: e.is_private
@@ -80,17 +82,20 @@ async def get_invite_link(client, channel):
 )
 async def _update(event):
     try:
-        git_output = subprocess.check_output(['git', 'pull'], stderr=subprocess.STDOUT, universal_newlines=True)
+        git_output = subprocess.check_output(
+            ["git", "pull"], stderr=subprocess.STDOUT, universal_newlines=True
+        )
         git_output_escaped = html.escape(git_output)
-        update = await event.reply(f'<pre>{git_output_escaped}</pre>')
+        update = await event.reply(f"<pre>{git_output_escaped}</pre>")
         if "Already up to date" in git_output.strip():
             return
-        restart_message = await update.reply("<code>Bot Updated</code>")
-        os.execl(sys.executable, sys.executable, 'bot.py')
+        await update.reply("<code>Bot Updated</code>")
+        os.execl(sys.executable, sys.executable, "bot.py")
     except subprocess.CalledProcessError as e:
-        await event.reply(f'Git pull failed:\n{html.escape(e.output)}')
+        await event.reply(f"Git pull failed:\n{html.escape(e.output)}")
     except Exception as e:
-        await event.reply(f'Error occurred during update: {html.escape(str(e))}')
+        await event.reply(f"Error occurred during update: {html.escape(str(e))}")
+
 
 @bot.on(
     events.NewMessage(
@@ -101,19 +106,33 @@ async def _start(event):
     xnx = await event.reply("`Please Wait...`")
     msg_id = event.pattern_match.group(1)
     dB.add_broadcast_user(event.sender_id)
-    btn = []
-    try: 
-        non_member_channels = [channel for channel in Var.AUTH_CHANNELS if not await is_user_joined(bot, event.sender_id, int(channel))]
+    try:
+        non_member_channels = [
+            channel
+            for channel in Var.AUTH_CHANNELS
+            if not await is_user_joined(bot, event.sender_id, int(channel))
+        ]
         if non_member_channels:
             buttons = [
-                [Button.url("Join Channel", url= await get_invite_link(bot, channel))] for channel in non_member_channels
+                [Button.url("Join Channel", url=await get_invite_link(bot, channel))]
+                for channel in non_member_channels
             ]
             if msg_id:
-                buttons.append([Button.url("♻️ REFRESH",   url=f"https://t.me/{((await bot.get_me()).username)}?start={msg_id}")])                                    
-            return await xnx.edit("**Please Join The Following Channel To Use This Bot 🫡**", buttons=buttons)
+                buttons.append(
+                    [
+                        Button.url(
+                            "♻️ REFRESH",
+                            url=f"https://t.me/{((await bot.get_me()).username)}?start={msg_id}",
+                        )
+                    ]
+                )
+            return await xnx.edit(
+                "**Please Join The Following Channel To Use This Bot 🫡**",
+                buttons=buttons,
+            )
     except Exception as e:
         await event.reply(f"err in {e}\n\n{format_exc()}")
-    
+
     if msg_id:
         if msg_id.isdigit():
             msg = await bot.get_messages(Var.BACKUP_CHANNEL, ids=int(msg_id))
@@ -144,11 +163,12 @@ async def _start(event):
         )
     await xnx.delete()
 
+
 @bot.on(events.ChatAction)
 async def join_reqs(event):
     if isinstance(event.action_message.action, UpdateChatParticipantAdd):
         user_id = event.action_message.action.user_id
-        chat_id = event.chat_id  
+        chat_id = event.chat_id
         try:
             if chat_id == REQ_CHANNEL1:
                 await mdb.add_req_one(user_id)
@@ -156,6 +176,7 @@ async def join_reqs(event):
                 await mdb.add_req_two(user_id)
         except Exception as e:
             print(f"Error adding join request: {e}")
+
 
 @bot.on(events.callbackquery.CallbackQuery(data=re.compile("tas_(.*)")))
 async def _(e):
